@@ -245,6 +245,7 @@ Note alarmMelody[] = {
   { 0, 3000 }
 };
 const int melodyLength = sizeof(alarmMelody) / sizeof(alarmMelody[0]);
+const float gapDuration = 0.2;
 void playAlarm() {
   while (alarmState == 1) {
     for (int i = 0; i < melodyLength; i++) {
@@ -253,7 +254,9 @@ void playAlarm() {
       } else {
         noTone(BUZZER_PIN);
       }
-      delay(alarmMelody[i].duration);
+      delay(alarmMelody[i].duration * (1 - gapDuration));
+      noTone(BUZZER_PIN);
+      delay(alarmMelody[i].duration * gapDuration);
       if (digitalRead(BUTTON_ALARM_SW) == LOW) {
         noTone(BUZZER_PIN);
         digitalWrite(LED_PIN, LOW);
